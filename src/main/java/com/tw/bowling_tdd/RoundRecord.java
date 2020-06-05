@@ -37,4 +37,16 @@ public class RoundRecord {
   public int getKnockedTotalBalls() {
     return knockedBalls.stream().reduce(0, (first, second) -> first + second);
   }
+
+  public void setRoundNumber(int roundNumber) {
+    this.roundNumber = roundNumber;
+  }
+
+  public void setResult(RoundResultEnum result) {
+    this.result = result;
+  }
+
+  public void setKnockedBalls(List<Integer> knockedBalls) {
+    this.knockedBalls = knockedBalls;
+  }
 }
