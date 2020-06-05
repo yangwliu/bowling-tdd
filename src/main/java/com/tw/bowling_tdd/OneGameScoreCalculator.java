@@ -8,28 +8,52 @@ public class OneGameScoreCalculator {
 
     int totalScore = 0;
     for(int i = 0; i < 10; i++) {
-      RoundRecord record = records.get(i);
-      totalScore += record.getKnockedTotalBalls();
-      if (record.getResult() == RoundResultEnum.STRIKE) {
-        if (i == 8) {
-          totalScore += records.get(i + 1).getKnockedBalls().get(0) + records.get(i + 1).getKnockedBalls().get(1);
-        }
-        if (i < 8) {
-          RoundRecord nextRoundRecord = records.get(i + 1);
-          if (nextRoundRecord.getResult() == RoundResultEnum.STRIKE) {
-            totalScore += nextRoundRecord.getKnockedTotalBalls() + records.get(i + 2).getKnockedBalls().get(0);
-          } else {
-            totalScore += nextRoundRecord.getKnockedTotalBalls();
-          }
-        }
+      int currentRoundScore = 0;
+      if (i < 8) {
+        currentRoundScore = getCurrentRoundScoreForFirstEightRound(records.get(i), records.get(i + 1), records.get(i + 2));
       }
-
-      if (record.getResult() == RoundResultEnum.SPARE && i < 9) {
-        totalScore += records.get(i + 1).getKnockedBalls().get(0);
+      if (i == 8) {
+        currentRoundScore = getCurrentRoundScoreForNinthRound(records.get(i), records.get(i + 1));
       }
+      if (i == 9) {
+        currentRoundScore = getCurrentRoundScoreForTenthRound(records.get(i));
+      }
+      totalScore += currentRoundScore;
     }
 
     return totalScore;
+  }
+
+  private static int getCurrentRoundScoreForTenthRound(RoundRecord currentRoundRecord) {
+    return currentRoundRecord.getKnockedTotalBalls();
+  }
+
+  private static int getCurrentRoundScoreForNinthRound(RoundRecord currentRoundRecord, RoundRecord nextRound) {
+    int currentRoundScores = currentRoundRecord.getKnockedTotalBalls();
+    if (currentRoundRecord.getResult() == RoundResultEnum.STRIKE) {
+      currentRoundScores += nextRound.getKnockedBalls().get(0) + nextRound.getKnockedBalls().get(1);
+    }
+
+    if (currentRoundRecord.getResult() == RoundResultEnum.SPARE) {
+      currentRoundScores += nextRound.getKnockedBalls().get(0);
+    }
+    return currentRoundScores;
+  }
+
+  private static int getCurrentRoundScoreForFirstEightRound(RoundRecord currentRoundRecord, RoundRecord nextRoundRecord, RoundRecord nextNextRoundRecord) {
+    int currentRoundScores = currentRoundRecord.getKnockedTotalBalls();
+    if (currentRoundRecord.getResult() == RoundResultEnum.STRIKE) {
+      if (nextNextRoundRecord.getResult() == RoundResultEnum.STRIKE) {
+        currentRoundScores += nextNextRoundRecord.getKnockedBalls().get(0) + nextNextRoundRecord.getKnockedBalls().get(0);
+      } else {
+        currentRoundScores += nextNextRoundRecord.getKnockedTotalBalls();
+      }
+    }
+
+    if (currentRoundRecord.getResult() == RoundResultEnum.SPARE) {
+      currentRoundScores += nextNextRoundRecord.getKnockedBalls().get(0);
+    }
+    return currentRoundScores;
   }
 
 }

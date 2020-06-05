@@ -35,7 +35,7 @@ public class RoundRecord {
   }
 
   public int getKnockedTotalBalls() {
-    return knockedBalls.stream().reduce(0, (first, second) -> first + second);
+    return knockedBalls.stream().reduce(0, Integer::sum);
   }
 
   public void setRoundNumber(int roundNumber) {
