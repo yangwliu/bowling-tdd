@@ -22,4 +22,15 @@ class OneGameScoreCalculatorTest {
     assertEquals(0, actual);
   }
 
+  @Test
+  void should_return_sum_of_all_rounds_knocked_balls_when_calculate_one_game_total_score_given_all_rounds_neither_STRIKE_nor_SPARE() {
+    //given
+    List<RoundRecord> roundRecords = IntStream.range(0, 10).mapToObj(i -> new RoundRecord(i + 1, RoundResultEnum.NOT_COMPLETE, Arrays.asList(1, 1))).collect(Collectors.toList());
+
+    //when
+    int actual = OneGameScoreCalculator.calculateOneGameTotalScore(roundRecords);
+
+    //then
+    assertEquals(20, actual);
+  }
 }
