@@ -24,7 +24,7 @@ public class OneGameScoreCalculator {
         }
       }
 
-      if (record.getResult() == RoundResultEnum.SPARE) {
+      if (record.getResult() == RoundResultEnum.SPARE && i < 9) {
         totalScore += records.get(i + 1).getKnockedBalls().get(0);
       }
     }
