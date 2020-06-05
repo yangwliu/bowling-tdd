@@ -73,4 +73,18 @@ class OneGameScoreCalculatorTest {
     //then
     assertEquals(30, actual);
   }
+
+  @Test
+  void should_return_total_knocked_balls_add_first_time_knocked_ball_after_spare_round_when_calculate_one_game_total_score_given_one_of_the_first_nine_round_is_spare_and_the_others_are_neither_strike_nor_spare() {
+    //given
+    List<RoundRecord> roundRecords = IntStream.range(0, 10).mapToObj(i -> new RoundRecord(i + 1, RoundResultEnum.NOT_COMPLETE, Arrays.asList(1, 1))).collect(Collectors.toList());
+    RoundRecord lastRoundRecord = roundRecords.get(0);
+    lastRoundRecord.setResult(RoundResultEnum.SPARE);
+    lastRoundRecord.setKnockedBalls(Arrays.asList(3, 7));
+    //when
+    int actual = OneGameScoreCalculator.calculateOneGameTotalScore(roundRecords);
+
+    //then
+    assertEquals(29, actual);
+  }
 }

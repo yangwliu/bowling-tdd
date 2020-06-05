@@ -23,6 +23,10 @@ public class OneGameScoreCalculator {
           }
         }
       }
+
+      if (record.getResult() == RoundResultEnum.SPARE) {
+        totalScore += records.get(i + 1).getKnockedBalls().get(0);
+      }
     }
 
     return totalScore;
