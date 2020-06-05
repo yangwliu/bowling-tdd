@@ -1,10 +1,20 @@
 package com.tw.bowling_tdd;
 
+import com.tw.bowling_tdd.exception.RecordsIsEmpty;
+import com.tw.bowling_tdd.exception.RecordsNotComplete;
 import java.util.List;
 
 public class OneGameScoreCalculator {
 
   public static int calculateOneGameTotalScore(List<RoundRecord> records) {
+
+    if (records == null || records.isEmpty()) {
+      throw new RecordsIsEmpty();
+    }
+
+    if (records.size() != 10) {
+      throw new RecordsNotComplete();
+    }
 
     int totalScore = 0;
     for(int i = 0; i < 10; i++) {

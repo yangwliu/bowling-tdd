@@ -1,5 +1,8 @@
 package com.tw.bowling_tdd;
 
+import com.tw.bowling_tdd.exception.RecordsIsEmpty;
+import com.tw.bowling_tdd.exception.RecordsNotComplete;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -100,5 +103,21 @@ class OneGameScoreCalculatorTest {
 
     //then
     assertEquals(29, actual);
+  }
+
+  @Test
+  void should_throw_records_is_empty_exception_when_calculate_one_game_total_score_given_records_is_null() {
+    assertThrows(RecordsIsEmpty.class, () -> OneGameScoreCalculator.calculateOneGameTotalScore(null));
+  }
+
+  @Test
+  void should_throw_records_is_empty_exception_when_calculate_one_game_total_score_given_records_is_empty() {
+    assertThrows(RecordsIsEmpty.class, () -> OneGameScoreCalculator.calculateOneGameTotalScore(new ArrayList<>()));
+  }
+
+  @Test
+  void should_throw_records_not_complete_exception_when_calculate_one_game_total_score_given_records_is_empty() {
+    assertThrows(RecordsNotComplete.class, () -> OneGameScoreCalculator.calculateOneGameTotalScore(IntStream.range(0, 9).mapToObj(i -> RoundRecord.buildSpikeRoundRecord(i + 1)).collect(
+        Collectors.toList())));
   }
 }
