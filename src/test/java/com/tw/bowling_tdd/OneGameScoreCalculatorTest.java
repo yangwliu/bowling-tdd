@@ -59,4 +59,18 @@ class OneGameScoreCalculatorTest {
     //then
     assertEquals(30, actual);
   }
+
+  @Test
+  void should_return_total_knocked_balls_when_calculate_one_game_total_score_given_all_of_the_first_nine_round_are_neither_strike_nor_spare_and_the_tenth_round_is_strike() {
+    //given
+    List<RoundRecord> roundRecords = IntStream.range(0, 10).mapToObj(i -> new RoundRecord(i + 1, RoundResultEnum.NOT_COMPLETE, Arrays.asList(1, 1))).collect(Collectors.toList());
+    RoundRecord lastRoundRecord = roundRecords.get(9);
+    lastRoundRecord.setResult(RoundResultEnum.STRIKE);
+    lastRoundRecord.setKnockedBalls(Arrays.asList(10, 1, 1));
+    //when
+    int actual = OneGameScoreCalculator.calculateOneGameTotalScore(roundRecords);
+
+    //then
+    assertEquals(30, actual);
+  }
 }
