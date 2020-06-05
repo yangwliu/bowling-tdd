@@ -33,4 +33,16 @@ class OneGameScoreCalculatorTest {
     //then
     assertEquals(20, actual);
   }
+
+  @Test
+  void should_return_300_when_calculate_one_game_total_score_given_all_rounds_are_SPIKE() {
+    //given
+    List<RoundRecord> roundRecords = IntStream.range(0, 10).mapToObj(i -> RoundRecord.buildSpikeRoundRecord(i + 1)).collect(Collectors.toList());
+
+    //when
+    int actual = OneGameScoreCalculator.calculateOneGameTotalScore(roundRecords);
+
+    //then
+    assertEquals(300, actual);
+  }
 }
