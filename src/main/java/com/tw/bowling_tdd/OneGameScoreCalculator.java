@@ -6,18 +6,20 @@ import java.util.List;
 
 public class OneGameScoreCalculator {
 
+  private static final int RECORDS_LENGTH = 10;
+
   public static int calculateOneGameTotalScore(List<RoundRecord> records) {
 
     if (records == null || records.isEmpty()) {
       throw new RecordsIsEmpty();
     }
 
-    if (records.size() != 10) {
+    if (records.size() != RECORDS_LENGTH) {
       throw new RecordsNotComplete();
     }
 
     int totalScore = 0;
-    for(int i = 0; i < 10; i++) {
+    for(int i = 0; i < RECORDS_LENGTH; i++) {
       int currentRoundScore = 0;
       if (i < 8) {
         currentRoundScore = getCurrentRoundScoreForFirstEightRound(records.get(i), records.get(i + 1), records.get(i + 2));
